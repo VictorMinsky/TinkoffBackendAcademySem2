@@ -1,0 +1,15 @@
+server:
+  port: 8082
+management:
+  endpoints:
+    web:
+      base-path: ''
+      exposure:
+        include: info,health,prometheus
+      path-mapping:
+        info: /actuator/info
+        prometheus: /metrics
+grpc:
+  server:
+    port: 9092
+    address: 127.0.0.1

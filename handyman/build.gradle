@@ -1,11 +1,22 @@
+buildscript {
+    ext {
+        protobufVersion = '3.22.0'
+        protobufPluginVersion = '0.9.2'
+        grpcVersion = '1.53.0'
+        springBootGrpcVersion = '2.14.0.RELEASE'
+        mockitoVersion = '5.1.1'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.google.protobuf' version '0.9.2'
 }
 
 group = 'com.tinkoff'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.1'
 sourceCompatibility = '17'
 
 configurations {
@@ -30,6 +41,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'org.flywaydb:flyway-core'
+    implementation "io.grpc:grpc-all:${grpcVersion}"
+    implementation "net.devh:grpc-server-spring-boot-starter:${springBootGrpcVersion}"
     implementation 'org.springframework:spring-test:5.3.24'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
@@ -37,9 +50,28 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "io.grpc:grpc-testing:${grpcVersion}"
+    testImplementation "net.devh:grpc-client-spring-boot-starter:${springBootGrpcVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation 'io.rest-assured:spring-mock-mvc'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
 }
