@@ -1,0 +1,19 @@
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      base-path: ''
+      exposure:
+        include: info,health,prometheus
+      path-mapping:
+        info: /actuator/info
+        prometheus: /metrics
+grpc:
+  client:
+    HandymanService:
+      address: "localhost:9090"
+      negotiationType: plaintext
+    RancherService:
+      address: "localhost:9092"
+      negotiationType: plaintext

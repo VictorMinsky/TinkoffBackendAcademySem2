@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
@@ -53,5 +54,26 @@ class SystemControllerTest {
                 .then()
                 .statusCode(OK.value())
                 .expect(jsonPath("$.RancherService").value("OK"));
+    }
+
+    @Test
+    void readinessGRPCReturns200AndREADY() throws Exception {
+        // Given
+        String path = "/system/readinessGRPC";
+
+        // When
+        ResultActions response = mockMvc.perform(get(path));
+        while (true) {
+            String responseJSON = response.andReturn().getResponse().getContentAsString();
+            if (responseJSON.contains("IDLE") || responseJSON.contains("CONNECTING")) {
+                response = mockMvc.perform(get(path));
+            } else {
+                break;
+            }
+        }
+
+        // Then
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.RancherService").value("READY"));
     }
 }

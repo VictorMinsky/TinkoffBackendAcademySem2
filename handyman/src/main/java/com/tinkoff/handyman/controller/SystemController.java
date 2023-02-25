@@ -1,6 +1,7 @@
 package com.tinkoff.handyman.controller;
 
 import com.tinkoff.handyman.service.SystemService;
+import io.grpc.ConnectivityState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,18 @@ public class SystemController {
     @GetMapping("/readiness")
     public Map<String, String> readiness() {
         return service.readiness();
+    }
+
+    /**
+     * Returns OK 200 and json with service status.
+     * Uses gRPC ConnectivityState to obtain status.
+     *
+     * @return json with service name, and it's status (1 of 5 statuses)
+     * @see SystemService#readiness()
+     * @see ConnectivityState
+     */
+    @GetMapping("/readinessGRPC")
+    public Map<String, String> readinessGRPC() {
+        return service.readinessGRPC();
     }
 }
