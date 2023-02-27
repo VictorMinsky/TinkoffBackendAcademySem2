@@ -10,6 +10,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SystemService {
     private final BuildProperties buildProperties;
+    private static volatile boolean isServiceReady = false;
+
+
+    /**
+     * Changes internal state `isServiceReady` to true
+     * to indicate that service is ready.
+     */
+    public static void changeServiceReadinessToTrue() {
+        isServiceReady = true;
+    }
 
     /**
      * Checks readiness of the service
@@ -17,6 +27,6 @@ public class SystemService {
      * @return map of service name, and it's status ("OK")
      */
     public Map<String, String> readiness() {
-        return Map.of(buildProperties.getName(), "OK");
+        return Map.of(buildProperties.getName(), isServiceReady ? "OK" : "NOT OK");
     }
 }
