@@ -2,6 +2,8 @@ package com.tinkoff.handyman.controller;
 
 import com.tinkoff.handyman.service.SystemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,12 @@ public class SystemController {
 
     /**
      * Checks liveness of the service, returns OK 200
+     *
+     * @return {@link ResponseEntity} with HTTP Status OK
      */
     @GetMapping("/liveness")
-    public void liveness() {
+    public ResponseEntity<Void> liveness() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
