@@ -3,6 +3,7 @@ package com.tinkoff.landscape.controller;
 import com.tinkoff.landscape.dto.ServiceStatusDTO;
 import com.tinkoff.landscape.service.ServicesStatusService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class ServicesStatusController {
      * @return Map of services and their {@link ServiceStatusDTO}
      */
     @GetMapping("/statuses")
-    public Map<String, List<ServiceStatusDTO>> getStatuses() {
-        return servicesStatusService.getStatuses();
+    public ResponseEntity<Map<String, List<ServiceStatusDTO>>> getStatuses() {
+        return ResponseEntity.ok(servicesStatusService.getStatuses());
     }
 }
