@@ -2,6 +2,7 @@ package com.tinkoff.handyman.controller;
 
 import com.tinkoff.handyman.service.SystemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SystemController {
     private final SystemService service;
+    private final BuildProperties buildProperties;
 
     /**
      * Checks liveness of the service, returns OK 200
@@ -33,7 +35,12 @@ public class SystemController {
      * @see SystemService#readiness()
      */
     @GetMapping("/readiness")
-    public Map<String, String> readiness() {
-        return service.readiness();
+    public ResponseEntity<Map<String, String>> readiness() {
+        Map<String, String> status = service.readiness();
+        if (status.get(buildProperties.getName()).equals("OK")) {
+            return ResponseEntity.ok(service.readiness());
+        }
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 }
