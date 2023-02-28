@@ -3,18 +3,18 @@ package com.tinkoff.rancher.controller;
 import com.tinkoff.rancher.service.SystemService;
 import io.grpc.ConnectivityState;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @RequestMapping("/system")
 @RequiredArgsConstructor
+@Log4j2
 public class SystemController {
     private final SystemService service;
     private final BuildProperties buildProperties;
@@ -56,5 +56,19 @@ public class SystemController {
     @GetMapping("/readinessGRPC")
     public ResponseEntity<Map<String, String>> readinessGRPC() {
         return ResponseEntity.ok(service.readinessGRPC());
+    }
+
+    /**
+     * Forces service to malfunction by changing its status
+     * from OK to Malfunction.
+     *
+     * @param status if service should work in malfunction mode
+     * @return {@link ResponseEntity} with HTTP Status OK
+     */
+    @PostMapping("/forceMalfunction")
+    public ResponseEntity<Void> forceMalfunction(@RequestParam(defaultValue = "true") boolean status) {
+        SystemService.changeServiceReadiness(!status);
+        log.info(String.format("Service Status changed to %s manually.", service.readiness()));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
