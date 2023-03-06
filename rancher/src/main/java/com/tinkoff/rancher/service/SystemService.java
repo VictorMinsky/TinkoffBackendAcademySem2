@@ -62,16 +62,4 @@ public class SystemService {
         ConnectivityState state = managedChannel.getState(true);
         return Map.of(buildProperties.getName(), state.name());
     }
-
-    /**
-     * Checks readiness of the service.
-     * Uses gRPC ConnectivityState to obtain status.
-     *
-     * @return map of service name, and it's status (1 of 5 statuses)
-     * @see ConnectivityState
-     */
-    public Map<String, String> readinessGRPC() {
-        ConnectivityState state = managedChannel.getState(true);
-        return Map.of(buildProperties.getName(), state.name());
-    }
 }
