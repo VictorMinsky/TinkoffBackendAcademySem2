@@ -9,12 +9,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -53,5 +56,26 @@ class SystemControllerTest {
                 .then()
                 .statusCode(OK.value())
                 .expect(jsonPath("$.RancherService").value("OK"));
+    }
+
+    @Test
+    void readinessGRPCReturns200AndREADY() throws Exception {
+        // Given
+        String path = "/system/readiness/grpc";
+
+        // When
+        ResultActions response = mockMvc.perform(get(path));
+        while (true) {
+            String responseJSON = response.andReturn().getResponse().getContentAsString();
+            if (responseJSON.contains("IDLE") || responseJSON.contains("CONNECTING")) {
+                response = mockMvc.perform(get(path));
+            } else {
+                break;
+            }
+        }
+
+        // Then
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.RancherService").value("READY"));
     }
 }
