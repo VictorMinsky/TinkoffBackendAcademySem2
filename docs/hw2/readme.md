@@ -5,4 +5,4 @@
 3. В серверах создал `StatusServiceImpl` и унаследовал от `StatusServiceGrpc.StatusServiceImplBase`. Также переопределил
    getVersion и getReadiness.
 4. В `Landscape` реализовал ручку `/services/statuses`
-5. В серверах новая ручка `/system/readinessGRPC` работает и отдаёт `StatesOfConnectivity`
+5. В серверах новая ручка `/system/readiness/grpc` работает и отдаёт `StatesOfConnectivity`

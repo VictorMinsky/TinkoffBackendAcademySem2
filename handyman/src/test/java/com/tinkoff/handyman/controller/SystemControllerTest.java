@@ -61,7 +61,7 @@ class SystemControllerTest {
     @Test
     void readinessGRPCReturns200AndREADY() throws Exception {
         // Given
-        String path = "/system/readinessGRPC";
+        String path = "/system/readiness/grpc";
 
         // When
         ResultActions response = mockMvc.perform(get(path));

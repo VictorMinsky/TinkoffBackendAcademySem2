@@ -53,7 +53,7 @@ public class SystemController {
      * @see SystemService#readiness()
      * @see ConnectivityState
      */
-    @GetMapping("/readinessGRPC")
+    @GetMapping("/readiness/grpc")
     public ResponseEntity<Map<String, String>> readinessGRPC() {
         return ResponseEntity.ok(service.readinessGRPC());
     }

@@ -22,6 +22,7 @@ import java.util.Map;
 @Setter
 @RequiredArgsConstructor
 public class ServicesStatusService {
+    public static final String DEFAULT_CHANNEL_EXCLUDE = "GLOBAL";  // removes default GLOBAL channel
     private final GrpcChannelsProperties grpcChannelsProperties;
     private final GrpcChannelFactory grpcChannelFactory;
 
@@ -37,7 +38,7 @@ public class ServicesStatusService {
         grpcChannelsProperties.getClient()
                 .keySet()
                 .stream()
-                .filter(it -> !it.equals("GLOBAL")) // removes default GLOBAL channel
+                .filter(it -> !it.equals(DEFAULT_CHANNEL_EXCLUDE))
                 .forEach(serviceName -> {
                     try {
                         servicesStatuses.computeIfAbsent(serviceName, key -> new ArrayList<>())
