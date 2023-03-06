@@ -62,7 +62,7 @@ class SystemControllerTest {
     @Test
     void readinessGRPCReturns200AndREADY() throws Exception {
         // Given
-        String path = "/system/readinessGRPC";
+        String path = "/system/readiness/grpc";
 
         // When
         ResultActions response = mockMvc.perform(get(path));
@@ -79,7 +79,6 @@ class SystemControllerTest {
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.RancherService").value("READY"));
     }
-
     @Test
     void forceMalfunction() {
         String pathMalfunction = "/system/forceMalfunction";
