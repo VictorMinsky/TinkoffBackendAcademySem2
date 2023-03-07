@@ -14,6 +14,8 @@ services:
       - "8080:8080"
       - "9090:9090"
     restart: always
+    environment:
+      - grpc.server.address=0.0.0.0
     container_name: handyman
     image: handyman:0.2.1
   landscape:
@@ -25,7 +27,7 @@ services:
       - "8081:8081"
     environment:
       - grpc.client.HandymanService.address=static://handyman:9090
-      - grpc.client.HandymanService.address=static://rancher:9092
+      - grpc.client.RancherService.address=static://rancher:9092
     restart: always
     container_name: landscape
     image: landscape:0.2.1
@@ -41,6 +43,8 @@ services:
       - "8082:8082"
       - "9092:9092"
     restart: always
+    environment:
+      - grpc.server.address=0.0.0.0
     container_name: rancher
     image: rancher:0.2.1
   prometheus:
