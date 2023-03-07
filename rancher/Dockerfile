@@ -3,9 +3,10 @@ FROM gradle:7.5.1-jdk17-alpine AS build
 WORKDIR /workspace/app
 
 COPY . /workspace/app
-RUN apk add gcompat
-RUN --mount=type=cache,target=/root/.gradle ./gradlew clean build -x test
-RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*-SNAPSHOT.jar)
+RUN --mount=type=cache,target=/root/.gradle apk add gcompat && \
+    ./gradlew clean build -x test && \
+    mkdir -p build/dependency && \
+    (cd build/dependency; jar -xf ../libs/*-SNAPSHOT.jar)
 
 FROM gradle:7.5.1-jdk17-alpine
 VOLUME /tmp
