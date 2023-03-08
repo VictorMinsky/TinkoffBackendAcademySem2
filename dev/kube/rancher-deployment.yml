@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: rancher
-          image: rancher:latest
-          imagePullPolicy: Never
+          image: victorminsky/rancher:0.2.1
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
             - containerPort: 9092

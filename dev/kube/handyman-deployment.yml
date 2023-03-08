@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: handyman
-          image: handyman:latest
-          imagePullPolicy: Never
+          image: victorminsky/handyman:0.2.1
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
             - containerPort: 9090

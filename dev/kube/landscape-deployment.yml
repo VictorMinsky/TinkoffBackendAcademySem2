@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: landscape
-          image: landscape:latest
-          imagePullPolicy: Never
+          image: victorminsky/landscape:0.2.1
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
