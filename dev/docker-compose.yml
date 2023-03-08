@@ -16,6 +16,9 @@ services:
     restart: always
     environment:
       - grpc.server.address=0.0.0.0
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123
+      - DB_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=public
     container_name: handyman
     image: handyman:0.2.1
   landscape:
@@ -28,6 +31,9 @@ services:
     environment:
       - grpc.client.HandymanService.address=static://handyman:9090
       - grpc.client.RancherService.address=static://rancher:9092
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123
+      - DB_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=public
     restart: always
     container_name: landscape
     image: landscape:0.2.1
@@ -45,6 +51,9 @@ services:
     restart: always
     environment:
       - grpc.server.address=0.0.0.0
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=123
+      - DB_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=public
     container_name: rancher
     image: rancher:0.2.1
   prometheus:
@@ -71,9 +80,13 @@ services:
     container_name: postgres
     ports:
       - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123
       - POSTGRES_DB=postgres
     networks:
       - internal
+volumes:
+  postgres-data:

@@ -25,3 +25,4 @@
 | HW1  | [*тык*](./docs/hw1/readme.md) |
 | HW2  | [*тык*](./docs/hw2/readme.md) |
 | HW3  | [*тык*](./docs/hw3/readme.md) |
+| HW4  | [*тык*](./docs/hw4/readme.md) |

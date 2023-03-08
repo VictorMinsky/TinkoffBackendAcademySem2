@@ -17,3 +17,8 @@ grpc:
     RancherService:
       address: "localhost:9092"
       negotiationType: plaintext
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
