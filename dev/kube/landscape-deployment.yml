@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landscape
+spec:
+  selector:
+    matchLabels:
+      app: landscape
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: landscape
+    spec:
+      containers:
+        - name: landscape
+          image: landscape:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: grpc.client.HandymanService.address
+              value: static://handyman:9090
+            - name: grpc.client.RancherService.address
+              value: static://rancher:9092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: landscape
+spec:
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+  type: NodePort
+  selector:
+    app: landscape
