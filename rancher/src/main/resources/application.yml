@@ -13,3 +13,8 @@ grpc:
   server:
     port: 9092
     address: 127.0.0.1
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
