@@ -40,7 +40,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.micrometer:micrometer-registry-prometheus'
-    implementation 'org.flywaydb:flyway-core'
     implementation "io.grpc:grpc-all:${grpcVersion}"
     implementation "net.devh:grpc-server-spring-boot-starter:${springBootGrpcVersion}"
     implementation 'org.springframework:spring-test:5.3.24'

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/db.changelog-01-hw5-create-user-table.sql
+  - include:
+      file: db/changelog/db.changelog-02-hw5-alter-user-table.sql
+  - changeSet:
+      id: 3
+      author: VictorMinsky
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            path: db/changelog/db.changelog-03-hw5-procedure-change-user-type.sql
+            splitStatements: false
+      comment: Creates procedure that allows to change user's type by small batches
