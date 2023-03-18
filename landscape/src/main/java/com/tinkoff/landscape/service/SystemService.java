@@ -14,19 +14,21 @@ public class SystemService {
 
 
     /**
-     * Changes internal state `isServiceReady` to true
+     * Changes internal state `isServiceReady` to `status`
      * to indicate that service is ready.
+     *
+     * @param status to change readiness
      */
-    public static void changeServiceReadinessToTrue() {
-        isServiceReady = true;
+    public static void changeServiceReadiness(boolean status) {
+        isServiceReady = status;
     }
 
     /**
-     * Checks readiness of the service
+     * Checks readiness of the service.
      *
-     * @return map of service name, and it's status ("OK")
+     * @return map of service name, and it's status ("OK" or "Malfunction")
      */
     public Map<String, String> readiness() {
-        return Map.of(buildProperties.getName(), isServiceReady ? "OK" : "NOT OK");
+        return Map.of(buildProperties.getName(), isServiceReady ? "OK" : "Malfunction");
     }
 }
